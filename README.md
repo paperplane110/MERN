@@ -2,6 +2,8 @@
 
 Learning MongoDB, Express, React, and Node to become full stack software engineer. 
 
+# Chapter 1: Hello World
+
 ## Day1
 
 ### nvm
@@ -15,7 +17,7 @@ nvm use 10      // use node@10
 
 ```js
 const element = React.createElement('tag', {setting}, ...)
-React.render(element, document.getElementById('...'))
+ReactDom.render(element, document.getElementById('...'))
 ```
 
 ## Day2
@@ -26,3 +28,23 @@ npx babel --version   // use npx to run local command in node_modules/.bin
 // compile the jsx in src/ and output to public/
 npx babel src --presets @babel/react --out-dir public
 ```
+
+### JavaScript
+
+`Array.from()` is like `map()` in python
+
+- In python
+
+```python
+nums = [1, 2, 3, 4]
+nums_square = map(lambda x: x*x, nums)
+```
+
+- In JavaScript
+
+```js
+const nums = [1, 2, 3, 4]
+const numsSquare = Array.from(nums, x => x*x)
+```
+
+
