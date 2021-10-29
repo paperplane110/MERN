@@ -1,16 +1,32 @@
 "use strict";
 
-// const element = (
-//   <div title="Outer div">
-//     <h1>Hello World</h1>
-//   </div>
-// );
-//
-// ReactDOM.render(element, document.getElementById('contents'))
-var continents = ['Africa', 'America', 'Asia', 'Australia', 'Europe'];
-var helloContinents = Array.from(continents, continent => "Hello ".concat(continent, "!"));
-var message = helloContinents.join(' ');
-var element = /*#__PURE__*/React.createElement("div", {
-  title: "outer div"
-}, /*#__PURE__*/React.createElement("h1", null, message));
+class IssueFilter extends React.Component {
+  render() {
+    return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for the issueFilter");
+  }
+
+}
+
+class IssueTable extends React.Component {
+  render() {
+    return /*#__PURE__*/React.createElement("div", null, "This a placeholder for the Issue Table");
+  }
+
+}
+
+class IssueAdd extends React.Component {
+  render() {
+    return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for the Issue Add");
+  }
+
+}
+
+class IssueList extends React.Component {
+  render() {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Issue Tracker"), /*#__PURE__*/React.createElement(IssueFilter, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueTable, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement(IssueAdd, null));
+  }
+
+}
+
+var element = /*#__PURE__*/React.createElement(IssueList, null);
 ReactDOM.render(element, document.getElementById('contents'));
