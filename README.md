@@ -1,6 +1,8 @@
-# MERN 
+# MERN
 
 Learning MongoDB, Express, React, and Node to become full stack software engineer. 
+
+👉Following this book: https://github.com/vasansr/pro-mern-stack-2
 
 # Chapter 1: Hello World
 
@@ -16,7 +18,7 @@ nvm use 10      // use node@10
 ### React
 
 ```js
-const element = React.createElement('tag', {setting}, ...)
+const element = React.createElement('tag', {setting}, React.createElement(''))
 ReactDom.render(element, document.getElementById('...'))
 ```
 
