@@ -1,5 +1,23 @@
 "use strict";
 
+var issues = [{
+  id: 1,
+  status: 'New',
+  owner: 'Ravan',
+  effort: 5,
+  created: new Date('2018-08-15'),
+  due: undefined,
+  title: 'Error in console when clicking Add'
+}, {
+  id: 2,
+  status: 'Assigned',
+  owner: 'Eddie',
+  effort: 14,
+  created: new Date('2018-08-16'),
+  due: new Date('2018-08-30'),
+  title: 'Missing bottom border on panel'
+}];
+
 class IssueFilter extends React.Component {
   render() {
     return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for the issueFilter");
@@ -9,37 +27,24 @@ class IssueFilter extends React.Component {
 
 class IssueRow extends React.Component {
   render() {
-    var style = this.props.rowStyle;
-    return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.issue_id), /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.children));
+    var issue = this.props.issue;
+    return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, issue.id), /*#__PURE__*/React.createElement("td", null, issue.status), /*#__PURE__*/React.createElement("td", null, issue.owner), /*#__PURE__*/React.createElement("td", null, issue.created.toLocaleDateString()), /*#__PURE__*/React.createElement("td", null, issue.effort), /*#__PURE__*/React.createElement("td", null, issue.due ? issue.due.toLocaleDateString() : ''), /*#__PURE__*/React.createElement("td", null, issue.title));
   }
 
 }
 
 class IssueTable extends React.Component {
   render() {
-    var rowStyle = {
-      border: "1px solid silver",
-      padding: 4
-    };
+    var issueRows = issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
+      key: issue.id,
+      issue: issue
+    }));
     return /*#__PURE__*/React.createElement("table", {
-      style: {
-        borderCollapse: "collapse"
-      }
-    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "ID"), /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "Title"))), /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement(IssueRow, {
-      rowStyle: rowStyle,
-      issue_id: 1
-    }, "Error in console when clicking Add"), /*#__PURE__*/React.createElement(IssueRow, {
-      rowStyle: rowStyle,
-      issue_id: 2
-    }, /*#__PURE__*/React.createElement("div", null, "Missing ", /*#__PURE__*/React.createElement("b", null, "bottom"), " border on panel"))));
+      className: "bordered-table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ID"), /*#__PURE__*/React.createElement("th", null, "Status"), /*#__PURE__*/React.createElement("th", null, "Owner"), /*#__PURE__*/React.createElement("th", null, "Created"), /*#__PURE__*/React.createElement("th", null, "Effort"), /*#__PURE__*/React.createElement("th", null, "Due Date"), /*#__PURE__*/React.createElement("th", null, "Title"))), /*#__PURE__*/React.createElement("tbody", null, issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
+      key: issue.id,
+      issue: issue
+    }))));
   }
 
 }

@@ -4,7 +4,7 @@ Learning MongoDB, Express, React, and Node to become full stack software enginee
 
 👉Following this book: https://github.com/vasansr/pro-mern-stack-2
 
-# Chapter 1: Hello World
+# Chapter 2: Hello World
 
 ## Day1
 
@@ -48,6 +48,8 @@ nums_square = map(lambda x: x*x, nums)
 const nums = [1, 2, 3, 4]
 const numsSquare = Array.from(nums, x => x*x)
 ```
+
+# Chapter 3: React Components
 
 ## Day3
 
@@ -246,3 +248,13 @@ class IssueTable extends React.Component {
 
 1. We would use `this.props.children` when passing data to the content of some style wrapping component. 
 Then it allows us to use the `React.component` like a tag wrapper.
+
+#### Exercise: Dynamic Composition
+
+1. Maybe create time stamp? Time stamp is probably identical.
+2. Because we want to create several different `issueRows` by using `map()`,
+    otherwise we would hardcode each `IssueRow` content
+3. It works well.
+
+# Chapter4: React State
+
