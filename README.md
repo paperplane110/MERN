@@ -118,3 +118,42 @@ class IssueList extends React.Component {
 
 1. There is no `<React.Fragment>` tag in browser console elements.
     One good thing is that there also no redundant `<div>` in `<div id="content">`
+
+## Day4
+
+### JavaScript: [Regular Expression](https://github.com/Asabeneh/30-Days-Of-JavaScript/blob/master/12_Day_Regular_expressions/12_day_regular_expressions.md)
+
+Two important things:
+- patterns: the text you want to match
+- flag:
+  - g: global search
+  - i: case insensitive
+  - m: multiline search
+
+```js
+// create a RegExp
+let pattern = 'love'
+let flag = 'gi'
+let regExp = new RegExp(pattern, flag)
+
+// or manually creating: /{pattern}/{flag}
+let regExp = /love/gi
+
+// RegExp method
+let line = "I love coding"
+regExp.test(line)         // reture true if pattern exists
+regExp.search(line)       // reture the index of pattern start-bit in line
+regExp.match(line)        // 
+```
+
+- []: a set of characters
+- ^: start with
+- $: end with
+- *: zero or more times
+- +: one or more times
+- ?: zero or one times
+- {3}: exactly 3 characters
+- {3,}: 3 or more characters
+- {3,5}: 3 to 5 characters
+- |: either or 不是就是
+
