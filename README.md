@@ -157,3 +157,92 @@ regExp.match(line)        //
 - {3,5}: 3 to 5 characters
 - |: either or 不是就是
 
+### React: Passing data using `this.props`
+
+```js
+class IssueRow extends React.Component {
+  render() {
+    const style = this.props.rowStyle
+    return (
+      <tr>
+        <td style={style}>{this.props.issue_id}</td>        // this.props.issue_id will be set while instantiation
+        <td style={style}>{this.props.issue_title}</td>
+      </tr>
+    )
+  }
+}
+
+class IssueTable extends React.Component {
+  render() {
+    const rowStyle = {border: "1px solid silver", padding: 4}
+    return (
+      <table style={{borderCollapse: "collapse"}}>    // Note that there are double curly brace
+        <thead>
+          <tr>
+            <th style={rowStyle}>ID</th>
+            <th style={rowStyle}>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          // Note that use the props name(in IssueRow) to passing value
+          <IssueRow rowStyle={rowStyle} issue_id={1} issue_title="Error in console when clicking Add" />
+          <IssueRow rowStyle={rowStyle} issue_id={2} issue_title="Missing bottom border on panel" />
+        </tbody>
+      </table>
+    )
+  }
+}
+```
+
+#### Exercise: Passing Data Using Props
+
+1. We don't use `border=1` this syntax to set the style, we use key/value syntax
+2. `style={objectVariable}` is a valid way to pass value to attributes.
+   `style={{borderCollapse: "collapse"}}` the inner curly brace encapsulates the css setting as an Object
+3. Know nothing about PHP....
+
+### React: Passing Data Using Children
+
+`this.props.children` can access the content wrapped by the React component. 
+So it gives more flexible to setting the style of the content.
+
+```js
+class IssueRow extends React.Component {
+  render() {
+    const style = this.props.rowStyle
+    return (
+      <tr>
+        <td style={style}>{this.props.issue_id}</td>
+        <td style={style}>{this.props.children}</td>
+      </tr>
+    )
+  }
+}
+
+class IssueTable extends React.Component {
+  render() {
+    const rowStyle = {border: "1px solid silver", padding: 4}
+    return (
+      <table style={{borderCollapse: "collapse"}}>
+        <thead>
+          <tr>
+            <th style={rowStyle}>ID</th>
+            <th style={rowStyle}>Title</th>
+          </tr>
+        </thead>
+        <tbody>
+          <IssueRow rowStyle={rowStyle} issue_id={1}>Error in console when clicking Add</IssueRow>
+          <IssueRow rowStyle={rowStyle} issue_id={2}>
+            <div>Missing <b>bottom</b> border on panel</div>
+          </IssueRow>
+        </tbody>
+      </table>
+    )
+  }
+}
+```
+
+#### Exercise: Passing Data Using Children
+
+1. We would use `this.props.children` when passing data to the content of some style wrapping component. 
+Then it allows us to use the `React.component` like a tag wrapper.
