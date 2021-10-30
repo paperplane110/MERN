@@ -258,3 +258,44 @@ Then it allows us to use the `React.component` like a tag wrapper.
 
 # Chapter4: React State
 
+### Initial State:
+
+```js
+class IssueTable extends React.Component {
+  constructor() {
+    super()
+    this.staue = 'something'
+  }
+  render() {}
+}
+```
+
+#### Exercise: Initial State
+
+1. I would define some classes in `index.html` for each status, 
+   then apply the `issue.status` to the `<tr>` tag in `IssueRow`
+
+In index.html header style:
+
+```css
+table.bordered-table th, td {border: 1px solid silver; padding: 4px}
+table.bordered-table {border-collapse: collapse}
+table.bordered-table tr.new {background-color: greenyellow;}
+table.bordered-table tr.assigned {background-color: lightblue;}
+```
+
+then in js
+
+```js
+class IssueRow extends React.Component {
+  render() {
+    const issue = this.props.issue
+    const statusClass = issue.status.toLowerCase()
+    return (
+      <tr className={statusClass}>
+        ...
+      </tr>
+    )
+  }
+}
+```

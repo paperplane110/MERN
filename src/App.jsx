@@ -1,4 +1,4 @@
-const issues = [
+const initialIssues = [
   {
   id: 1,
   status: 'New',
@@ -31,14 +31,15 @@ class IssueFilter extends React.Component {
 class IssueRow extends React.Component {
   render() {
     const issue = this.props.issue
+    const statusClass = issue.status.toLowerCase()
     return (
-      <tr>
+      <tr className={statusClass}>
         <td>{issue.id}</td>
         <td>{issue.status}</td>
         <td>{issue.owner}</td>
         <td>{issue.created.toLocaleDateString()}</td>
         <td>{issue.effort}</td>
-        <td>{issue.due ? issue.due.toLocaleDateString() : ''}</td>
+        <td>{issue.due ? issue.due.toLocaleDateString() : 'Undefined'}</td>
         <td>{issue.title}</td>
       </tr>
     )
@@ -46,8 +47,20 @@ class IssueRow extends React.Component {
 }
 
 class IssueTable extends React.Component {
+  constructor () {
+    super()
+    this.state = { issues: [] }
+  }
+  loadData() {
+    setTimeout(() => {
+      this.setState({ issues: initialIssues })
+    }, 500)
+  }
+  componentDidMount() {
+    this.loadData()
+  }
   render() {
-    const issueRows = issues.map(issue =>
+    const issueRows = this.state.issues.map(issue =>
       <IssueRow key={issue.id} issue={issue} />
     )
     return (
@@ -64,7 +77,7 @@ class IssueTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {issues.map(issue => <IssueRow key={issue.id} issue={issue} />)}
+          {issueRows}
         </tbody>
       </table>
     )
