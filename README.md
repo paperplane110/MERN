@@ -299,3 +299,41 @@ class IssueRow extends React.Component {
   }
 }
 ```
+
+## Day5
+
+### Async State Initialization
+
+Mount the component needs time, to avoid error we would load data after the mount done.
+The built in method `componentDidMount()` is for this purpose.
+
+```js
+class IssueTable extends React.Component {
+  constructor () {
+    super()
+    this.state = { issues: [] }
+  }
+  loadData() {
+    setTimeout(() => {
+      this.setState({ issues: initialIssues })
+    }, 500)
+  }
+  componentDidMount() {
+    this.loadData()
+  }
+  render() {
+    ...
+  }
+}
+```
+
+### Updating State
+
+#### Exercise Updating State
+
+1. It will raise an error since two issues might have a same id.
+    Because `setTimeout(callback, time)` is an async function, 
+    which means the second update won't wait for the first one to complete.
+2. `render()` method run three times, the first is at the component finished mounting.
+    The second time happens after data initialization.
+    The third time happens after updating new issues.

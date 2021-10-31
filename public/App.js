@@ -17,6 +17,11 @@ var initialIssues = [{
   due: new Date('2018-08-30'),
   title: 'Missing bottom border on panel'
 }];
+var sampleIssue = {
+  status: 'New',
+  owner: 'Pieta',
+  title: 'Completion date should be optional'
+};
 
 class IssueFilter extends React.Component {
   render() {
@@ -42,6 +47,9 @@ class IssueTable extends React.Component {
     this.state = {
       issues: []
     };
+    setTimeout(() => {
+      this.createIssue(sampleIssue);
+    }, 2000);
   }
 
   loadData() {
@@ -56,7 +64,18 @@ class IssueTable extends React.Component {
     this.loadData();
   }
 
+  createIssue(issue) {
+    issue.id = this.state.issues.length + 1;
+    issue.created = new Date();
+    var newIssueList = this.state.issues.slice();
+    newIssueList.push(issue);
+    this.setState({
+      issues: newIssueList
+    });
+  }
+
   render() {
+    console.count('Render times: ');
     var issueRows = this.state.issues.map(issue => /*#__PURE__*/React.createElement(IssueRow, {
       key: issue.id,
       issue: issue
