@@ -17,11 +17,6 @@ var initialIssues = [{
   due: new Date('2018-08-30'),
   title: 'Missing bottom border on panel'
 }];
-var sampleIssue = {
-  status: 'New',
-  owner: 'Pieta',
-  title: 'Completion date should be optional'
-};
 
 class IssueFilter extends React.Component {
   render() {
@@ -57,13 +52,35 @@ class IssueTable extends React.Component {
 class IssueAdd extends React.Component {
   constructor() {
     super();
-    setTimeout(() => {
-      this.props.createIssue(sampleIssue);
-    }, 2000);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    var form = document.forms.issueAdd;
+    var issue = {
+      owner: form.owner.value,
+      title: form.title.value,
+      status: 'New'
+    };
+    this.props.createIssue(issue);
+    form.owner.value = "";
+    form.title.value = "";
   }
 
   render() {
-    return /*#__PURE__*/React.createElement("div", null, "This is a placeholder for the Issue Add");
+    return /*#__PURE__*/React.createElement("form", {
+      name: "issueAdd",
+      onSubmit: this.handleSubmit
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      name: "owner",
+      placeholder: "Owner"
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      name: "title",
+      placeholder: "Title"
+    }), /*#__PURE__*/React.createElement("button", null, "Add"));
   }
 
 }

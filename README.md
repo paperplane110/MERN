@@ -340,4 +340,14 @@ class IssueTable extends React.Component {
 
 ### Lifting State Up
 
-Bind the parent method for children: `this.func.bind(this)`
+`this.func.bind(this)` can define `this.func` belongs to which class
+
+To bind the parent method for children, you might need to write `this.func.bind(this)` in parent class, 
+then pass this func to children by props. When you call this function in children class like this: `this.func`,
+the `this` indicates the parent class actually.
+
+### Event Handling
+
+#### Exercise: Event Handling
+
+
