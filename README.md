@@ -337,3 +337,7 @@ class IssueTable extends React.Component {
 2. `render()` method run three times, the first is at the component finished mounting.
     The second time happens after data initialization.
     The third time happens after updating new issues.
+
+### Lifting State Up
+
+Bind the parent method for children: `this.func.bind(this)`
