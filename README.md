@@ -350,4 +350,10 @@ the `this` indicates the parent class actually.
 
 #### Exercise: Event Handling
 
+## Day6
+
+### Stateless Component
+
+Stateless component could be written as a function
+
 
