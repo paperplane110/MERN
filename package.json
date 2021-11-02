@@ -5,7 +5,7 @@
   "main": "server.js",
   "repository": "https://github.com/paperplane110/MERN",
   "scripts": {
-    "start": "nodemon -w server server/server.js",
+    "start": "nodemon -w server -e js,graphql server/server.js",
     "compile": "babel src --out-dir public",
     "watch": "babel src --out-dir public --watch --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,9 @@
   "author": "paperplane110",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-express": "^2.25.2",
     "express": "^4.17.1",
+    "graphql": "^0.13.2",
     "nodemon": "^2.0.14"
   },
   "devDependencies": {
