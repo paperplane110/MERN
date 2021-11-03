@@ -1,25 +1,3 @@
-const initialIssues = [
-  {
-  id: 1,
-  status: 'New',
-  owner: 'Ravan',
-  effort: 5,
-  created: new Date('2018-08-15'),
-  due: undefined,
-  title: 'Error in console when clicking Add',
-  },
-  {
-  id: 2,
-  status: 'Assigned',
-  owner: 'Eddie',
-  effort: 14,
-  created: new Date('2018-08-16'),
-  due: new Date('2018-08-30'),
-  title: 'Missing bottom border on panel',
-  },
-];
-
-
 class IssueFilter extends React.Component {
   render() {
     return (
@@ -39,7 +17,7 @@ function IssueRow(props) {
       <td>{issue.owner}</td>
       <td>{issue.created.toLocaleDateString()}</td>
       <td>{issue.effort}</td>
-      <td>{issue.due ? issue.due.toLocaleDateString() : 'Undefined'}</td>
+      <td>{issue.due ? issue.due.toLocaleDateString() : ''}</td>
       <td>{issue.title}</td>
     </tr>
   )
@@ -99,16 +77,36 @@ class IssueAdd extends React.Component {
 }
 
 
+const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d')
+
+function jsonDateReviver(key, value) {
+  if (dateRegex.test(value)) return new Date(value)
+  return value
+}
+
+
 class IssueList extends React.Component {
   constructor () {
     super()
     this.state = { issues: [] }
     this.createIssue = this.createIssue.bind(this)
   }
-  loadData() {
-    setTimeout(() => {
-      this.setState({ issues: initialIssues })
-    }, 500)
+  async loadData() {
+    const query = `query {
+      issueList {
+        id title status owner
+        created effort due
+      }
+    }`
+
+    const response = await fetch('/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query })
+    })
+    const body = await response.text()
+    const result = JSON.parse(body, jsonDateReviver)
+    this.setState({ issues: result.data.issueList })
   }
   componentDidMount() {
     this.loadData()
