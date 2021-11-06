@@ -41,7 +41,7 @@ class IssueAdd extends React.Component {
     var issue = {
       owner: form.owner.value,
       title: form.title.value,
-      status: 'New'
+      due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10)
     };
     this.props.createIssue(issue);
     form.owner.value = "";
@@ -129,13 +129,38 @@ class IssueList extends React.Component {
   }
 
   createIssue(issue) {
-    issue.id = this.state.issues.length + 1;
-    issue.created = new Date();
-    var newIssueList = this.state.issues.slice();
-    newIssueList.push(issue);
-    this.setState({
-      issues: newIssueList
-    });
+    var _this2 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var query, response;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              query = "mutation{\n      issueAdd(issue: {\n        title: \"".concat(issue.title, "\",\n        owner: \"").concat(issue.owner, "\",\n        due: \"").concat(issue.due.toISOString(), "\"\n      }) {\n        id\n      }\n    }");
+              _context2.next = 3;
+              return fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  query
+                })
+              });
+
+            case 3:
+              response = _context2.sent;
+
+              _this2.loadData();
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   }
 
   render() {
