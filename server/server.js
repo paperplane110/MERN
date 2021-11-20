@@ -34,7 +34,7 @@ const GraphQLDate = new GraphQLScalarType({
     return value.toISOString()
   },
   parseLiteral(ast) {
-    if (ast.kind === Kind.String ) {
+    if (ast.kind == Kind.STRING) {
       const value = new Date(ast.value)
       return isNaN(value) ? undefined : value
     }
@@ -54,22 +54,14 @@ const resolvers = {
     setAboutMessage,
     issueAdd,
   },
-  // GraphQLDate,
+  GraphQLDate,
 }
 
 function setAboutMessage(_, { message }) {
-  return aboutMessage = message
+  return aboutMessage = message;
 }
 
-function issueAdd(_, { issue }) {
-  validateIssue(issue)
-  issue.created = new Date()
-  issue.id = issueDB.length + 1
-  issueDB.push(issue)
-  return issue
-}
-
-function validateIssue(_, { issue }) {
+function issueValidate(issue) {
   const errors = []
   if (issue.title.length < 3) {
     errors.push('Field title must be at least 3 characters long.')
@@ -80,6 +72,14 @@ function validateIssue(_, { issue }) {
   if (errors.length > 0) {
     throw new UserInputError('Invalid input(s)', { errors })
   }
+}
+
+function issueAdd(_, { issue }) {
+  issueValidate(issue)
+  issue.created = new Date()
+  issue.id = issueDB.length + 1
+  issueDB.push(issue)
+  return issue
 }
 
 function issueList() {
