@@ -4,7 +4,7 @@
  * @Author: TianyuYuan
  * @Date: 2021-11-25 22:25:50
  * @LastEditors: TianyuYuan
- * @LastEditTime: 2021-11-25 23:39:29
+ * @LastEditTime: 2021-11-26 00:04:49
  */
 
 const { MongoClient } = require('mongodb')
@@ -50,8 +50,31 @@ function testWithCallbacks(callback) {
   })
 }
 
+async function testWithAsync() {
+  console.log('\n--- testWithAsync ---');
+  const client = new MongoClient(url, { useNewUrlParser: true });
+  try {
+    await client.connect()
+    console.log('Connect to MongoDB');
+    const db = client.db();
+    const collection = db.collection('employees');
+
+    const employee = { id: 1, name: 'A. Callback', age: 23 };
+    const result = await collection.insertOne(employee);
+    console.log('Result of insert:\n', result.insertedId);
+
+    const docs = await collection.find({ _id: result.insertedId }).toArray();
+    console.log('Result of find:\n', docs);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.close()
+  }
+}
+
 testWithCallbacks(function (err) {
   if (err) {
     console.log(err)
   }
+  testWithAsync()
 })
