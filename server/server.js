@@ -4,13 +4,18 @@
  * @Author: TianyuYuan
  * @Date: 2021-10-27 23:52:41
  * @LastEditors: TianyuYuan
- * @LastEditTime: 2021-11-25 22:26:29
+ * @LastEditTime: 2021-12-05 00:42:45
  */
 const express = require('express')
 const { ApolloServer, UserInputError } = require('apollo-server-express')
 const fs = require('fs')
 const { GraphQLScalarType } = require('graphql')
 const { Kind } = require('graphql/language')
+const { MongoClient } = require('mongodb')
+
+const url = 'mongodb://localhost:27017/issuetracker'
+
+let db;
 
 let aboutMessage = 'Issue Tracker API v1.0'
 
@@ -61,16 +66,35 @@ function issueValidate (issue) {
   }
 }
 
-function issueAdd (_, { issue }) {
-  issueValidate(issue)
-  issue.created = new Date()
-  issue.id = issueDB.length + 1
-  issueDB.push(issue)
-  return issue
+async function getNextSequence(name) {
+  const result = await db.collection('counters').findOneAndUpdate(
+    { _id: name },
+    { $inc: { current: 1 } },
+    { returnOriginal: false },
+  );
+  return result.value.current;
 }
 
-function issueList () {
-  return issueDB
+async function issueAdd (_, { issue }) {
+  issueValidate(issue)
+  issue.created = new Date()
+  issue.id = await getNextSequence('issues');
+
+  const result = await db.collection('issues').insertOne(issue);
+  const savedIssue = await db.collection('issues').findOne({ _id: result.insertedId });
+  return savedIssue
+}
+
+async function issueList () {
+  const issues = await db.collection('issues').find({}).toArray();
+  return issues
+}
+
+async function connectToDb() {
+  const client = new MongoClient(url, { useNewUrlParser: true });
+  await client.connect();
+  console.log('Connected to MongoDB at ' + url);
+  db = client.db();
 }
 
 const server = new ApolloServer({
@@ -90,6 +114,14 @@ server.applyMiddleware({ app, path: '/graphql' })
 
 app.use('/', fileServerMiddleware)
 
-app.listen(3000, function () {
-  console.log('Server listening on port 3000')
-})
+  (async function () {
+    try {
+      await connectToDb();
+      app.listen(3000, function () {
+        console.log('Server listening on port 3000')
+      })
+    } catch (err) {
+      console.log('ERROR:', err)
+    }
+
+  })();

@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @version: 
+ * @Author: TianyuYuan
+ * @Date: 2021-11-24 23:35:28
+ * @LastEditors: TianyuYuan
+ * @LastEditTime: 2021-12-05 00:40:21
+ */
 db.issues.remove({})
 
 const issueDB = [
@@ -24,6 +32,9 @@ const issueDB = [
 db.issues.insertMany(issueDB)
 const count = db.issues.count()
 print('Inserted', count, 'issues')
+
+db.counters.remove({ _id: 'issues' });
+db.counters.insert({ _id: 'issues', current: count });
 
 db.issues.createIndex({ id: 1 }, { unique: true })
 db.issues.createIndex({ status: 1 })
