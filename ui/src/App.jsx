@@ -1,40 +1,39 @@
-async function graphQLFetch(query, variables = {}) {
+/* global React ReactDOM PropTypes */
+
+async function graphQLFetch (query, variables = {}) {
   try {
     const response = await fetch(window.ENV.UI_API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, variables })
     })
-    const body = await response.text();
-    const result = JSON.parse(body, jsonDateReviver);
+    const body = await response.text()
+    const result = JSON.parse(body, jsonDateReviver)
 
     if (result.errors) {
-      const error = result.errors[0];
+      const error = result.errors[0]
       if (error.extensions.code === 'BAD_USER_INPUT') {
-        const details = error.extensions.exception.errors.join('\n ');
-        alert(`${error.message}:\n ${details}`);
+        const details = error.extensions.exception.errors.join('\n ')
+        alert(`${error.message}:\n ${details}`)
       } else {
         alert(`${error.extensions.code}: ${error.message}`)
       }
     }
     return result.data
-
   } catch (e) {
     alert(`Error in sending data to server: ${e.message}`)
   }
 }
 
-
 class IssueFilter extends React.Component {
-  render() {
+  render () {
     return (
       <div>This is a placeholder for the issueFilter</div>
     )
   }
 }
 
-
-function IssueRow(props) {
+function IssueRow (props) {
   const issue = props.issue
   const statusClass = issue.status.toLowerCase()
   return (
@@ -50,67 +49,70 @@ function IssueRow(props) {
   )
 }
 
-function IssueTable(props) {
+function IssueTable (props) {
   const issueRows = props.issues.map(issue =>
     <IssueRow key={issue.id} issue={issue} />
   )
   return (
-    <table className="bordered-table">
+    <table className='bordered-table'>
       <thead>
-      <tr>
-        <th>ID</th>
-        <th>Status</th>
-        <th>Owner</th>
-        <th>Created</th>
-        <th>Effort</th>
-        <th>Due Date</th>
-        <th>Title</th>
-      </tr>
+        <tr>
+          <th>ID</th>
+          <th>Status</th>
+          <th>Owner</th>
+          <th>Created</th>
+          <th>Effort</th>
+          <th>Due Date</th>
+          <th>Title</th>
+        </tr>
       </thead>
       <tbody>
-      {issueRows}
+        {issueRows}
       </tbody>
     </table>
   )
 }
-
 
 class IssueAdd extends React.Component {
   constructor () {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleSubmit(e) {
+
+  handleSubmit (e) {
     e.preventDefault()
     const form = document.forms.issueAdd
     const issue = {
       owner: form.owner.value,
       title: form.title.value,
-      due: new Date(new Date().getTime() + 1000*60*60*24*10),
+      due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10)
     }
     this.props.createIssue(issue)
-    form.owner.value = ""
-    form.title.value = ""
+    form.owner.value = ''
+    form.title.value = ''
   }
-  render() {
+
+  render () {
     return (
-      <form name="issueAdd" onSubmit={this.handleSubmit}>
-        <input type="text" name="owner" placeholder="Owner" />
-        <input type="text" name="title" placeholder="Title" />
+      <form name='issueAdd' onSubmit={this.handleSubmit}>
+        <input type='text' name='owner' placeholder='Owner' />
+        <input type='text' name='title' placeholder='Title' />
         <button>Add</button>
       </form>
     )
   }
 }
 
+IssueAdd.propTypes = {
+  createIssue: PropTypes.func.isRequired
+}
 
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d')
 
-function jsonDateReviver(key, value) {
+function jsonDateReviver (key, value) {
   if (dateRegex.test(value)) return new Date(value)
   return value
 }
-
 
 class IssueList extends React.Component {
   constructor () {
@@ -118,48 +120,50 @@ class IssueList extends React.Component {
     this.state = { issues: [] }
     this.createIssue = this.createIssue.bind(this)
   }
-  async loadData() {
+
+  async loadData () {
     const query = `query {
       issueList {
         id title status owner
         created effort due
       }
     }`
-    const data = await graphQLFetch(query);
+    const data = await graphQLFetch(query)
     if (data) {
       this.setState({ issues: data.issueList })
     }
   }
-  componentDidMount() {
+
+  componentDidMount () {
     this.loadData()
   }
-  async createIssue(issue) {
+
+  async createIssue (issue) {
     const query = `mutation issueAdd($issue: IssueInputs!) {
       issueAdd(issue: $issue) {
         id
       }
     }`
 
-    const data = await graphQLFetch(query, { issue });
+    const data = await graphQLFetch(query, { issue })
     if (data) {
-      this.loadData();
+      this.loadData()
     }
   }
-  render() {
+
+  render () {
     return (
-      <React.Fragment>
+      <>
         <h1>Issue Tracker</h1>
         <IssueFilter />
         <hr />
-        <IssueTable issues={this.state.issues}/>
+        <IssueTable issues={this.state.issues} />
         <hr />
         <IssueAdd createIssue={this.createIssue} />
-      </React.Fragment>
+      </>
     )
   }
 }
-
-
 
 const element = <IssueList />
 ReactDOM.render(element, document.getElementById('contents'))

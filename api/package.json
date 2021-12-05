@@ -17,5 +17,8 @@
     "graphql": "^0.13.2",
     "mongodb": "^3.7.3",
     "nodemon": "^2.0.14"
+  },
+  "devDependencies": {
+    "standard": "^16.0.4"
   }
 }

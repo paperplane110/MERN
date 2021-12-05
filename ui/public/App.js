@@ -4,6 +4,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+/* global React ReactDOM PropTypes */
 function graphQLFetch(_x) {
   return _graphQLFetch.apply(this, arguments);
 }
@@ -112,8 +113,8 @@ class IssueAdd extends React.Component {
       due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10)
     };
     this.props.createIssue(issue);
-    form.owner.value = "";
-    form.title.value = "";
+    form.owner.value = '';
+    form.title.value = '';
   }
 
   render() {
@@ -133,6 +134,9 @@ class IssueAdd extends React.Component {
 
 }
 
+IssueAdd.propTypes = {
+  createIssue: PropTypes.func.isRequired
+};
 var dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
 
 function jsonDateReviver(key, value) {
