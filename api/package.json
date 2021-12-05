@@ -1,0 +1,20 @@
+{
+  "name": "pro-mern-stack-2-api",
+  "version": "1.0.0",
+  "description": "Learning MongoDB, Express, React, and Node to become full stack software engineer.",
+  "main": "server.js",
+  "repository": "https://github.com/paperplane110/MERN",
+  "scripts": {
+    "start": "nodemon -e js,graphql server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "paperplane110",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.25.2",
+    "express": "^4.17.1",
+    "graphql": "^0.13.2",
+    "mongodb": "^3.7.3",
+    "nodemon": "^2.0.14"
+  }
+}
