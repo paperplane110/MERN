@@ -4,12 +4,12 @@
  * @Author: TianyuYuan
  * @Date: 2021-11-25 22:25:50
  * @LastEditors: TianyuYuan
- * @LastEditTime: 2021-11-26 00:04:49
+ * @LastEditTime: 2021-12-05 11:40:12
  */
-
+require('dotenv').config()
 const { MongoClient } = require('mongodb')
 
-const url = 'mongodb://localhost/issuetracker'
+const url = process.env.DB_URL || 'mongodb://localhost/issuetracker'
 
 
 
@@ -21,7 +21,7 @@ function testWithCallbacks(callback) {
       callback(err);
       return;
     }
-    console.log('Connect to MongoDB');
+    console.log('Connect to MongoDB', url);
 
     const db = client.db();
     const collection = db.collection('employees');
@@ -55,7 +55,7 @@ async function testWithAsync() {
   const client = new MongoClient(url, { useNewUrlParser: true });
   try {
     await client.connect()
-    console.log('Connect to MongoDB');
+    console.log('Connect to MongoDB', url);
     const db = client.db();
     const collection = db.collection('employees');
 

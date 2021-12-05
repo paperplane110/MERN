@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/paperplane110/MERN",
   "scripts": {
-    "start": "nodemon -w uiserver.js uiserver.js",
+    "start": "nodemon -w uiserver.js -w .env uiserver.js",
     "compile": "babel src --out-dir public",
     "watch": "babel src --out-dir public --watch --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
   "author": "paperplane110",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "6",
     "express": "^4.17.1",
     "nodemon": "^2.0.14"
   },
