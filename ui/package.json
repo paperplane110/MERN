@@ -13,10 +13,15 @@
   "author": "paperplane110",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "6",
     "dotenv": "6",
     "express": "^4.17.1",
     "http-proxy-middleware": "0",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "prop-types": "15",
+    "react": "16",
+    "react-dom": "16",
+    "whatwg-fetch": "3"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",

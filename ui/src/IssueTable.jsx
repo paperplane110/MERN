@@ -1,4 +1,4 @@
-/* global React */
+import React from 'react';
 
 function IssueRow (props) {
   const issue = props.issue

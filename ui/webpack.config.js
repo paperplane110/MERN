@@ -4,23 +4,30 @@
  * @Author: TianyuYuan
  * @Date: 2021-12-07 23:05:25
  * @LastEditors: TianyuYuan
- * @LastEditTime: 2021-12-07 23:33:32
+ * @LastEditTime: 2021-12-13 22:19:04
  */
 const path = require('path')
 
 module.exports = {
   mode: 'development',
-  entry: './src/App.jsx',
+  entry: {app: './src/App.jsx'},
   output: {
-    filename: 'app.bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public')
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
+        exclude: /node_modules/,
         use: 'babel-loader'
       }
     ]
+  },
+  optimization: {
+    splitChunks: {
+      name: 'vendor',
+      chunks: 'all'
+    }
   }
 }
