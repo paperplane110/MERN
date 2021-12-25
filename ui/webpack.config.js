@@ -4,13 +4,13 @@
  * @Author: TianyuYuan
  * @Date: 2021-12-07 23:05:25
  * @LastEditors: TianyuYuan
- * @LastEditTime: 2021-12-13 22:19:04
+ * @LastEditTime: 2021-12-25 18:16:04
  */
 const path = require('path')
 
 module.exports = {
   mode: 'development',
-  entry: {app: './src/App.jsx'},
+  entry: {app: ['./src/App.jsx']},
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public')

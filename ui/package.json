@@ -31,7 +31,9 @@
     "babel-loader": "8",
     "standard": "^16.0.4",
     "webpack": "4",
-    "webpack-cli": "3"
+    "webpack-cli": "3",
+    "webpack-dev-middleware": "3",
+    "webpack-hot-middleware": "2"
   },
   "standard": {
     "ignore": [
